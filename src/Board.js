@@ -105,13 +105,15 @@
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
       var matrix = this.rows();
-      matrix.map((element) => {
-        return element[colIndex];
-      });
-      console.log(matrix);
-      return matrix.reduce((acc, val) => {
-        return acc+val;
-      }, 0) > 1;
+      var count = 0;
+      for ( var i = 0; i < matrix.length; i ++) {
+        if ( count > 1) {
+          return true;
+        } else if ( matrix[i][colIndex] === 1) {
+          count++;
+        }
+      }
+      return false;
     },
 
     // test if any columns on this board contain conflicts
