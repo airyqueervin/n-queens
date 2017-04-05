@@ -150,8 +150,8 @@
         return false;
       };
       if ( majorDiagonalColumnIndexAtFirstRow === 0 ) {
-        for ( var row = 0 ; row < matrix.length-1;) {
-          return diagonal(row+1, majorDiagonalColumnIndexAtFirstRow);
+        for ( var row = 0 ; row < matrix.length - 1;) {
+          return diagonal(row + 1, majorDiagonalColumnIndexAtFirstRow);
         }
       } else {
         return diagonal(0, majorDiagonalColumnIndexAtFirstRow);
@@ -160,7 +160,7 @@
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      for ( var i = 0; i < this.rows().length-1; i++) {
+      for ( var i = 0; i < this.rows().length - 1; i++) {
         if ( this.hasMajorDiagonalConflictAt(i)) {
           return true;
         }
