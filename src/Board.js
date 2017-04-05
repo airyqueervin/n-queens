@@ -107,10 +107,11 @@
       var matrix = this.rows();
       var count = 0;
       for ( var i = 0; i < matrix.length; i ++) {
+        if ( matrix[i][colIndex] === 1) {
+          count++;
+        }
         if ( count > 1) {
           return true;
-        } else if ( matrix[i][colIndex] === 1) {
-          count++;
         }
       }
       return false;
@@ -133,11 +134,37 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      var matrix = this.rows();
+      var diagonal = function(row, col) {
+        var count = 0;
+        while ( row < matrix.length && col < matrix.length) {
+          if ( matrix[row][col] === 1) {
+            count++;
+          }
+          if ( count > 1) {
+            return true;
+          }
+          row ++;
+          col ++;
+        }
+        return false;
+      };
+      if ( majorDiagonalColumnIndexAtFirstRow === 0 ) {
+        for ( var row = 0 ; row < matrix.length-1;) {
+          return diagonal(row+1, majorDiagonalColumnIndexAtFirstRow);
+        }
+      } else {
+        return diagonal(0, majorDiagonalColumnIndexAtFirstRow);
+      }
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
+      for ( var i = 0; i < this.rows().length-1; i++) {
+        if ( this.hasMajorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
       return false; // fixme
     },
 
