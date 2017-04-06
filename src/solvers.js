@@ -16,36 +16,76 @@
 
 
 window.findNRooksSolution = function(n) {
-  var matrix = this.rows();
-  var recursive = function ( number, matrix ) {
-    if ( number <= 0 ) {
-      return matrix;
-    } else {
-      // do the magic
-      // toggle piece tat that index
-      //check the conflict
-      // do more magic
-      recursive ( number-1, matrix);
+  var board = new Board({n:n});
+  var initialRow = Math.floor(Math.random()*(n));
+  var initialColumn = Math.floor(Math.random()*(n));
+  board.togglePiece(initialRow,initialColumn);
+  for ( var row = 0; row < n; row ++ ) {
+    for ( var col = 0; col < n; col++) {
+      if ( row !== initialRow || col !== initialColumn ) {
+        board.togglePiece(row, col);
+      }
+      if ( board.hasRowConflictAt(row) || board.hasColConflictAt(col) ) {
+        board.togglePiece(row, col);
+      }
     }
-  };
-  // pass in the value check it and push to result;
-  // 2D array
-  // given a n amount rooks
-  // iterate over the board
-  // toggle a piece on
-    // if it has a conflict
-     // toggle the piece off
-     // keep going until solution
-  //push to the 2D array. 
-  var solution = matrix; //fixme
-
-  console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
+  }
+  var solution = board.rows();
   return solution;
 };
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
-  var solutionCount = undefined; //fixme
+  var set = new Set();
+  var board = new Board({n:n});
+  var originalRow;
+  var originalCol;
+
+  var countRooks = function(row, col, bool) {
+    if ( bool ) {
+      set.add(board);
+      board = new Board({n:n});
+      return;
+    }
+    var flatMatrix = [].concat.apply([], board.rows());
+    var start = row*n+col+1;
+    while ( start < flatMatrix.length ) {
+      var r = Math.floor(start/n);
+      var c = start%n;
+      board.togglePiece(r, c);
+      if ( !board.hasRowConflictAt(r) && !board.hasColConflictAt(c)) {
+        countRooks(Math.floor(r, c, false));
+      }
+      else {
+        return;
+      }
+      start ++;
+    }
+    var start = 0;
+    while ( start < originalRow*n+originalCol ) {
+      var r = Math.floor(start/n);
+      var c = start%n;
+      board.togglePiece(r, c);
+      if ( !board.hasRowConflictAt(r) && !board.hasColConflictAt(c)) {
+        countRooks(Math.floor(r, c, false));
+      }
+      else {
+        return;
+      }
+      start ++;
+    }
+    countRooks(originalRow, originalCol, true);
+  };
+
+  for (var r = 0; r < n; r++) {
+    for ( var c = 0; c < n; c++) {
+      originalRow = r;
+      originalCol = c;
+      debugger;
+      countRooks(r,c, false);
+    }
+  }
+  var solutionCount = set.size; //fixme
 
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
