@@ -16,7 +16,28 @@
 
 
 window.findNRooksSolution = function(n) {
-  var solution = undefined; //fixme
+  var matrix = this.rows();
+  var recursive = function ( number, matrix ) {
+    if ( number <= 0 ) {
+      return matrix;
+    } else {
+      // do the magic
+      // toggle piece tat that index
+      //check the conflict
+      // do more magic
+      recursive ( number-1, matrix);
+    }
+  };
+  // pass in the value check it and push to result;
+  // 2D array
+  // given a n amount rooks
+  // iterate over the board
+  // toggle a piece on
+    // if it has a conflict
+     // toggle the piece off
+     // keep going until solution
+  //push to the 2D array. 
+  var solution = matrix; //fixme
 
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution;
