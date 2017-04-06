@@ -97,5 +97,19 @@ describe('Board', function() {
       [0, 0, 0, 0],
       [1, 0, 0, 0]
     ]);
+
+    verifyConflictTypes(['minorDiagonal', 'queens'], [
+      [0, 0, 0, 0],
+      [0, 0, 0, 1],
+      [0, 0, 1, 0],
+      [0, 0, 0, 0]
+    ]);
+
+    verifyConflictTypes(['minorDiagonal', 'queens'], [
+      [0, 1, 0, 0],
+      [1, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0]
+    ]);
   });
 });
